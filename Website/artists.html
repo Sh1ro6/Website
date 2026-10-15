@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UBFest - Artists</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="page">
+    <a class="back" href="index.html">&larr; Back to UBFest</a>
+    <h2 class="title">Artists</h2>
+
+    <div class="grid three" id="artist-grid"></div>
+
+    <section class="detail" id="detail">
+      <div class="text">
+        <h3 id="d-name"></h3>
+        <p class="instr" id="d-instr"></p>
+        <p id="d-info"></p>
+      </div>
+      <img id="d-img" alt="">
+    </section>
+    <p class="note-text">Tip: to use real photos, put images named like <b>olivia-rodrigo.jpg</b> in an <b>images</b> folder.</p>
+  </main>
+
+  <script>
+    const artists = [
+      { name: "Olivia Rodrigo", slug: "olivia-rodrigo", instrument: "Guitar",
+        info: "Olivia Rodrigo is an American singer-songwriter who burst onto the scene in 2021 with her debut single \"drivers license\". Her albums SOUR and GUTS blend pop, punk and heartfelt ballads, earning her multiple Grammy Awards." },
+      { name: "Metallica", slug: "metallica", instrument: "Electric Guitar",
+        info: "Formed in Los Angeles in 1981, Metallica is one of the most influential heavy metal bands ever. With classics like \"Enter Sandman\" and \"Master of Puppets\", they have sold over 125 million records worldwide." },
+      { name: "Linkin Park", slug: "linkin-park", instrument: "Vocals (Microphone)",
+        info: "Linkin Park from Agoura Hills, California fused rock, rap and electronics. Hits like \"In the End\" and \"Numb\" from Hybrid Theory and Meteora made them one of the best-selling bands of the 2000s." },
+      { name: "21 Pilots", slug: "21-pilots", instrument: "Piano",
+        info: "Twenty One Pilots is an Ohio duo made up of Tyler Joseph and Josh Dun. Known for genre-blending songs like \"Stressed Out\" and \"Heathens\" and for their high-energy, theatrical live shows." },
+      { name: "Kendrick Lamar", slug: "kendrick-lamar", instrument: "Microphone",
+        info: "Kendrick Lamar from Compton, California is one of the greatest rappers of his generation and the first rapper to win the Pulitzer Prize for Music, for his album DAMN." },
+      { name: "Travis Scott", slug: "travis-scott", instrument: "Microphone & Auto-Tune",
+        info: "Houston rapper and producer Travis Scott is famed for atmospheric trap sound and explosive live shows. Albums like Astroworld and Utopia produced hits such as \"Sicko Mode\" and \"Goosebumps\"." }
+    ];
+
+    // Placeholder portrait used if no photo is found in /images
+    function placeholder(a) {
+      const initials = a.name.split(" ").map(w => w[0]).join("").slice(0, 2);
+      const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400'>
+        <defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'>
+        <stop offset='0' stop-color='#000'/><stop offset='1' stop-color='#8a2be2'/></linearGradient></defs>
+        <rect width='400' height='400' fill='url(#g)'/>
+        <text x='200' y='235' font-size='140' font-family='Segoe UI,sans-serif' font-weight='700'
+          fill='#fff' text-anchor='middle'>${initials}</text></svg>`;
+      return "data:image/svg+xml;utf8," + encodeURIComponent(svg);
+    }
+
+    const grid = document.getElementById("artist-grid");
+    const detail = document.getElementById("detail");
+    const img = document.getElementById("d-img");
+
+    artists.forEach(a => {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `${a.name}<small>${a.instrument}</small>`;
+      card.addEventListener("click", () => {
+        document.getElementById("d-name").textContent = a.name;
+        document.getElementById("d-instr").textContent = "Most used instrument: " + a.instrument;
+        document.getElementById("d-info").textContent = a.info;
+        img.alt = a.name;
+        img.onerror = () => { img.onerror = null; img.src = placeholder(a); };
+        img.src = "images/" + a.slug + ".jpg";
+        detail.classList.add("open");
+        detail.scrollIntoView({ behavior: "smooth", block: "center" });
+      });
+      grid.appendChild(card);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,169 @@
+:root {
+  --black: #000;
+  --purple: #8a2be2;
+  --purple-deep: #4b0f8a;
+  --purple-light: #c084fc;
+  --text: #f3e8ff;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--black);
+  color: var(--text);
+  font-family: "Segoe UI", system-ui, sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* ---------- Falling notes ---------- */
+.notes {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+.note {
+  position: absolute;
+  top: -80px;
+  color: var(--purple);
+  text-shadow: 0 0 14px var(--purple);
+  animation: fall linear infinite;
+  opacity: 0.85;
+}
+@keyframes fall {
+  to { transform: translateY(115vh) rotate(25deg); }
+}
+
+/* ---------- Layout ---------- */
+.page {
+  position: relative;
+  z-index: 1;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 40px 20px 60px;
+}
+
+h1.logo {
+  text-align: center;
+  font-size: clamp(3.5rem, 11vw, 7rem);
+  letter-spacing: 6px;
+  color: #fff;
+  text-shadow: 0 0 25px var(--purple), 0 0 60px var(--purple-deep);
+  margin-bottom: 8px;
+}
+.tagline {
+  text-align: center;
+  color: var(--purple-light);
+  margin-bottom: 50px;
+  letter-spacing: 2px;
+}
+
+h2.title {
+  text-align: center;
+  font-size: 2.4rem;
+  margin-bottom: 30px;
+  text-shadow: 0 0 18px var(--purple);
+}
+
+.back {
+  display: inline-block;
+  margin-bottom: 20px;
+  color: var(--purple-light);
+}
+.back:hover { text-decoration: underline; }
+
+/* ---------- Rounded rectangles (black -> purple) ---------- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+.grid.three { grid-template-columns: repeat(3, 1fr); }
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 170px;
+  padding: 24px;
+  border-radius: 28px;
+  border: 1px solid rgba(192, 132, 252, 0.35);
+  background: linear-gradient(135deg, #000 0%, var(--purple) 100%);
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.card:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 0 28px rgba(138, 43, 226, 0.7);
+}
+.card small {
+  display: block;
+  margin-top: 10px;
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--purple-light);
+}
+.card.static { cursor: default; }
+.card.static:hover { transform: none; box-shadow: none; }
+
+/* ---------- Artist detail ---------- */
+.detail {
+  display: none;
+  margin-top: 40px;
+  padding: 32px;
+  border-radius: 28px;
+  border: 1px solid rgba(192, 132, 252, 0.35);
+  background: linear-gradient(135deg, #000 0%, var(--purple-deep) 100%);
+  gap: 32px;
+  align-items: center;
+}
+.detail.open { display: flex; }
+.detail .text { flex: 1; }
+.detail h3 { font-size: 2rem; margin-bottom: 6px; }
+.detail .instr { color: var(--purple-light); margin-bottom: 14px; }
+.detail p { line-height: 1.6; }
+.detail img {
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 24px;
+  border: 2px solid var(--purple);
+  box-shadow: 0 0 30px rgba(138, 43, 226, 0.6);
+}
+
+/* ---------- Tables / lists / text blocks ---------- */
+.panel {
+  padding: 28px 32px;
+  border-radius: 28px;
+  border: 1px solid rgba(192, 132, 252, 0.35);
+  background: linear-gradient(135deg, #000 0%, #2a0a50 100%);
+  margin-bottom: 24px;
+  line-height: 1.7;
+}
+.panel h3 { margin-bottom: 10px; color: var(--purple-light); }
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(192, 132, 252, 0.2);
+}
+.row:last-child { border-bottom: none; }
+.row.total { font-weight: 700; font-size: 1.15rem; color: #fff; }
+
+.note-text { text-align: center; color: var(--purple-light); font-size: 0.9rem; margin-top: 10px; }
+
+@media (max-width: 720px) {
+  .grid, .grid.three { grid-template-columns: 1fr; }
+  .detail.open { flex-direction: column-reverse; }
+  .detail img { width: 100%; height: auto; aspect-ratio: 1; }
+}
